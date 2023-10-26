@@ -33,6 +33,16 @@
           <i class="fas fa-address-card"></i>
         </h4>
         <ContactCard :contact="activeContact" />
+        <router-link
+          :to="{
+            name: 'contact.edit',
+            params: { id: activeContact._id },
+          }"
+        >
+          <span class="mt-2 badge badge-warning">
+            <i class="fas fa-edit"></i> Hiệu chỉnh</span
+          >
+        </router-link>
       </div>
     </div>
   </div>
@@ -64,9 +74,10 @@ export default {
       this.activeIndex = -1;
     },
   },
-  computed: {// tính toán các giá trị 
+  computed: {
+    // tính toán các giá trị
     // Chuyển các đối tượng contact thành chuỗi để tiện cho tìm kiếm.
-    
+
     contactStrings() {
       return this.contacts.map((contact) => {
         const { name, email, address, phone } = contact;
@@ -83,13 +94,16 @@ export default {
     filteredContactsCount() {
       return this.filteredContacts.length;
     },
-    activeContact() {  //Liên hệ đang được chọn.
+
+    activeContact() {
+      //Liên hệ đang được chọn.
       if (this.activeIndex < 0) return null;
       return this.filteredContacts[this.activeIndex];
     },
   },
   methods: {
-    async retrieveContacts() {//lấy danh sách liên hệ từ dịch vụ  service
+    async retrieveContacts() {
+      //lấy danh sách liên hệ từ dịch vụ  service
       try {
         this.contacts = await ContactService.getAll();
       } catch (error) {
@@ -97,7 +111,8 @@ export default {
       }
     },
 
-    refreshList() {//làm mới danh sách liên hệ.
+    refreshList() {
+      //làm mới danh sách liên hệ.
       this.retrieveContacts(); //lấy danh sách liên hệ mới.
       this.activeIndex = -1; //hủy chọn liên hệ nếu có.
     },
@@ -124,8 +139,8 @@ export default {
 </script>
 
 <style scoped>
-    .page {
-    text-align: left;
-    max-width: 750px;
-    }
+.page {
+  text-align: left;
+  max-width: 750px;
+}
 </style>
